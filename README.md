@@ -22,7 +22,8 @@ python example_script.py
 ```
 
 ## Mac (Shell)
-```make build
+```
+make build
 make run
 make shell
 ```
