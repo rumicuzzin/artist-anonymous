@@ -2,14 +2,17 @@
 FROM python:3.12-slim
 
 # Set working directory
-WORKDIR /scripts
+WORKDIR /workspace
 
-# Install minimal system dependencies
+# Install system dependencies including MongoDB
 RUN apt-get update && apt-get install -y \
     gnupg \
     wget \
     curl \
     ca-certificates \
+    vim \
+    nano \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 # Add MongoDB repository and install MongoDB
@@ -26,14 +29,8 @@ RUN mkdir -p /data/db
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Simple startup script
-RUN echo '#!/bin/bash\n\
-mongod --fork --logpath /var/log/mongodb.log --dbpath /data/db\n\
-echo "MongoDB started on port 27017"\n\
-exec "$@"' > /start.sh && chmod +x /start.sh
-
 # Expose MongoDB port
 EXPOSE 27017
 
-ENTRYPOINT ["/start.sh"]
+# Default command
 CMD ["bash"]
