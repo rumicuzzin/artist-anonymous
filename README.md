@@ -20,3 +20,9 @@ python example_script.py
 .\powershell\build.ps1
 .\powershell\run.ps1
 ```
+
+## Mac (Shell)
+```make build
+make run
+make shell
+```
