@@ -26,14 +26,17 @@ RUN mkdir -p /data/db
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy your Python scripts and other files
+COPY . .
+
 # Simple startup script
 RUN echo '#!/bin/bash\n\
 mongod --fork --logpath /var/log/mongodb.log --dbpath /data/db\n\
 echo "MongoDB started on port 27017"\n\
-exec "$@"' > /start.sh && chmod +x /start.sh
+# Keep container running by following the log\n\
+tail -f /var/log/mongodb.log' > /start.sh && chmod +x /start.sh
 
-# Expose MongoDB port
-EXPOSE 27017
+# Expose MongoDB port and any Python app port
+EXPOSE 27017 8000
 
 ENTRYPOINT ["/start.sh"]
-CMD ["bash"]
