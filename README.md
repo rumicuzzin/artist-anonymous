@@ -29,6 +29,6 @@ make shell
 ```
 
 ## If you already have a container running
-'''
+```
 docker exec -it artplace-mongo-container bash
-'''
+```
