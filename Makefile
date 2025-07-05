@@ -1,75 +1,140 @@
-# Docker image and container names
-IMAGE_NAME = artplace-dev
-CONTAINER_NAME = artplace-dev-container
+# Docker compose project name
+PROJECT_NAME = artplace
 
-# Build the development environment
+# Build all services
 build:
-	@echo "Building development environment..."
-	docker build -t $(IMAGE_NAME) .
+	@echo "Building all services..."
+	docker-compose build
 
-# Start interactive development container
-run:
-	@echo "Starting development container..."
-	docker run -it --rm \
-		--name $(CONTAINER_NAME) \
-		-p 27017:27017 \
-		-v "$(PWD)":/workspace \
-		-w /workspace \
-		$(IMAGE_NAME) bash
+# Build individual services
+build-backend:
+	@echo "Building backend service..."
+	docker-compose build backend
 
-# Start container in background (for longer sessions)
+build-frontend:
+	@echo "Building frontend service..."
+	docker-compose build frontend
+
+# Start all services (development mode)
+dev:
+	@echo "Starting development environment..."
+	docker-compose up --build
+
+# Start services in background
 start:
-	@echo "Starting container in background..."
-	docker run -d \
-		--name $(CONTAINER_NAME) \
-		-p 27017:27017 \
-		-v "$(PWD)":/workspace \
-		-w /workspace \
-		$(IMAGE_NAME) \
-		tail -f /dev/null
+	@echo "Starting services in background..."
+	docker-compose up -d --build
 
-# Enter running container
-shell:
-	docker exec -it $(CONTAINER_NAME) bash
-
-# Stop background container
+# Stop all services
 stop:
-	@echo "Stopping container..."
-	docker stop $(CONTAINER_NAME) 2>/dev/null || true
-	docker rm $(CONTAINER_NAME) 2>/dev/null || true
+	@echo "Stopping all services..."
+	docker-compose down
 
-# Start MongoDB in container (run this inside the container)
-mongo-start:
-	@echo "Starting MongoDB..."
-	mongod --bind_ip_all --dbpath /data/db --logpath /var/log/mongodb.log --fork
+# Restart all services
+restart:
+	@echo "Restarting all services..."
+	docker-compose restart
+
+# View logs from all services
+logs:
+	docker-compose logs -f
+
+# View logs from specific services
+logs-backend:
+	docker-compose logs -f backend
+
+logs-frontend:
+	docker-compose logs -f frontend
+
+logs-mongodb:
+	docker-compose logs -f mongodb
+
+# Enter shell in running containers
+shell-backend:
+	docker-compose exec backend bash
+
+shell-frontend:
+	docker-compose exec frontend sh
 
 # Connect to MongoDB shell
 mongo:
-	mongosh
+	docker-compose exec mongodb mongosh artplace
 
-# Clean up
-clean: stop
-	@echo "Cleaning up..."
-	docker rmi $(IMAGE_NAME) 2>/dev/null || true
+# Database operations
+db-backup:
+	@echo "Creating database backup..."
+	docker-compose exec mongodb mongodump --db artplace --out /tmp/backup
+	docker cp artplace-mongodb:/tmp/backup ./backups/
+
+db-restore:
+	@echo "Restoring database from backup..."
+	docker cp ./backups/artplace artplace-mongodb:/tmp/restore/
+	docker-compose exec mongodb mongorestore --db artplace /tmp/restore/artplace
+
+# Clean up everything
+clean:
+	@echo "Cleaning up containers, images, and volumes..."
+	docker-compose down --rmi all --volumes --remove-orphans
+	docker system prune -f
+
+# Reset development environment
+reset: clean build start
+
+# Status of services
+status:
+	docker-compose ps
+
+# Quick commands for development workflow
+quick-restart-backend:
+	docker-compose restart backend
+
+quick-restart-frontend:
+	docker-compose restart frontend
+
+# Install dependencies (run when package.json or requirements.txt changes)
+install-deps:
+	@echo "Rebuilding services with fresh dependencies..."
+	docker-compose build --no-cache
 
 # Show help
 help:
-	@echo "Development Environment Commands:"
+	@echo "ArtPlace Development Environment Commands:"
 	@echo ""
-	@echo "  build     - Build the development environment"
-	@echo "  dev       - Start interactive development session (recommended)"
-	@echo "  start     - Start container in background"
-	@echo "  shell     - Enter running background container"
-	@echo "  stop      - Stop background container"
-	@echo "  clean     - Remove image and container"
+	@echo "Main Commands:"
+	@echo "  build           - Build all services"
+	@echo "  dev             - Start development environment (recommended)"
+	@echo "  start           - Start services in background"
+	@echo "  stop            - Stop all services"
+	@echo "  restart         - Restart all services"
+	@echo "  status          - Show service status"
 	@echo ""
-	@echo "Commands to use INSIDE the container:"
-	@echo "  make mongo-start  - Start MongoDB"
-	@echo "  make mongo        - Connect to MongoDB shell"
+	@echo "Individual Service Commands:"
+	@echo "  build-backend   - Build only backend"
+	@echo "  build-frontend  - Build only frontend"
+	@echo "  shell-backend   - Enter backend container shell"
+	@echo "  shell-frontend  - Enter frontend container shell"
 	@echo ""
-	@echo "Quick start:"
+	@echo "Logging:"
+	@echo "  logs            - View logs from all services"
+	@echo "  logs-backend    - View backend logs"
+	@echo "  logs-frontend   - View frontend logs"
+	@echo "  logs-mongodb    - View MongoDB logs"
+	@echo ""
+	@echo "Database:"
+	@echo "  mongo           - Connect to MongoDB shell"
+	@echo "  db-backup       - Backup database"
+	@echo "  db-restore      - Restore database"
+	@echo ""
+	@echo "Maintenance:"
+	@echo "  install-deps    - Rebuild with fresh dependencies"
+	@echo "  clean           - Remove all containers and images"
+	@echo "  reset           - Clean and rebuild everything"
+	@echo ""
+	@echo "Quick Development Workflow:"
 	@echo "  1. make build"
 	@echo "  2. make dev"
-	@echo "  3. make mongo-start (inside container)"
+	@echo "  3. Open browser: http://localhost:3000 (frontend)"
+	@echo "  4. API available at: http://localhost:8000 (backend)"
+	@echo "  5. MongoDB: localhost:27017"
 
-.PHONY: build dev start shell stop mongo-start mongo clean help
+.PHONY: build build-backend build-frontend dev start stop restart logs logs-backend logs-frontend logs-mongodb shell-backend shell-frontend mongo db-backup db-restore clean reset status quick-restart-backend quick-restart-frontend install-deps help
