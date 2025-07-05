@@ -15,12 +15,6 @@ class userData:
         self.client = MongoClient(self.connection_string)
         self.db = self.client['artplacedb']
         self.collection = self.db['users']
-
-    def get_databse(self):
-        return self.db
-    
-    def get_collection(self):
-        return self.collection
     
     # Method to add a new user to the database
     def add_user(self, username, password, country):
@@ -38,6 +32,22 @@ class userData:
         result = self.collection.insert_one(user_data)
         new_user._id = result.inserted_id  # Store the inserted ID in the user object if needed
         return new_user
+    
+    # Method which retrieves a suer by username
+    def get_user_by_username(self, username):
+        user_data = self.collection.find_one({'username': username})
+        if user_data:
+            # return an instnace of user object instead of MONGO document
+            return user(
+                username=user_data['username'],
+                password=user_data['password'],
+                country=user_data['country'],
+                _id=user_data['_id']
+            )
+        return None
+
+
+
     
 
     
