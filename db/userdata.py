@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 
-# load environment variables from .env file\
+# load environment variables from .env file
 load_dotenv()
 # This file is responsible for connecting to the MongoDB database and performing CRUD operations on user data.
 
