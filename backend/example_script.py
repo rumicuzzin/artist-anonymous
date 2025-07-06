@@ -88,7 +88,7 @@ if __name__ == "__main__":
     artwork = productData()
     test_add_artwork()
     title = "Lioness Does Best"
-    retrieve_product(title)
+    product = artwork.get_product_by_title(title)
 
 
 
