@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 // This is the User Registration component
 
-function userRegistration() {
+function UserRegistration() {
 
     // Create state variables for each input
     const [username, setUsername] = useState('');     // Tracks username field
@@ -97,4 +97,4 @@ function userRegistration() {
         </div>
     );
 }
-export default userRegistration;
+export default UserRegistration;
