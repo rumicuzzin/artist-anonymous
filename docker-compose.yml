@@ -27,11 +27,8 @@ services:
       - ./backend:/app
       - /app/__pycache__
     environment:
-      - MONGODB_URI=mongodb://mongodb:27017/artplace
-      - FLASK_ENV=development
+      - MONGODB_URI=${MONGODB_URI}
       - FLASK_DEBUG=1
-    depends_on:
-      - mongodb
     networks:
       - artplace-network
 

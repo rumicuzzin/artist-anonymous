@@ -23,13 +23,13 @@ function HomePage() {
         {/* Navigation buttons */}
         <div className="auth-buttons space-y-4">
           <Link to="/login">
-            <button className="login-btn w-full py-3 bg-green-400 text-black font-semibold rounded hover:bg-green-500 transition-colors">
+            <button className="login-btn w-full py-3 bg-green-600 text-black font-semibold hover:bg-green-600 transition-colors">
               Login
             </button>
           </Link>
           
           <Link to="/register">
-            <button className="register-btn w-full py-3 border-2 border-green-400 text-green-400 font-semibold rounded hover:bg-green-500 hover:text-black transition-colors">
+            <button className="register-btn w-full py-3 border-2 border-green-600 text-green-600 font-semibold hover:bg-green-500 hover:text-black transition-colors">
               Sign Up
             </button>
           </Link>

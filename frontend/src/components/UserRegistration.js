@@ -32,18 +32,44 @@ function UserRegistration() {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();  // CRUCIAL: Prevent page refresh
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         
         // Now you have access to all the form data!
         console.log('User wants to register with:', {
             username,
             password, 
             country
-        });
-        
-        // TODO: Send this data to your Python backend
+        })
+
+         // This connects with the API backend to register the user
+        try {
+            const response = await fetch('http://localhost:8000/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username,
+                    password,
+                    country
+                })
+            });
+
+            const result = await response.json();
+            console.log('Registration successful:', result);
+            
+            // Optional: Clear the form after successful registration
+            setUsername('');
+            setPassword('');
+            setCountry('');
+            
+        } catch (error) {
+            console.error('Registration failed:', error);
+        }
     };
+
+
     return (
         <div className="user-registration">
             <form onSubmit={handleSubmit}>  {/* ← Connect submit handler */}

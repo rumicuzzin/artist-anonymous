@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from backend.userModel import user  
+from models.userModel import user  
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -44,6 +44,26 @@ class userData:
                 country=user_data['country'],
                 _id=user_data['_id']
             )
+
+    def user_login(self, username, password):
+        """
+        Authenticate user login by checking username and password against database.
+        Returns user object if credentials are valid, None otherwise.
+        """
+        user_data = self.collection.find_one({
+            'username': username,
+            'password': password
+        })
+        
+        if user_data:
+            return user(
+                username=user_data['username'],
+                password=user_data['password'],
+                country=user_data['country'],
+                _id=user_data['_id']
+            )
+
+
         return None
 
 

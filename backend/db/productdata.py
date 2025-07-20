@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from backend.productModel import artwork
+from models.productModel import artwork
 import os
 from dotenv import load_dotenv
 from datetime import datetime
