@@ -100,7 +100,7 @@ function UserRegistration() {
                     />
                     {/* Show password strength */}
                     {password && (
-                        <p>{password.length < 6 ? '⚠️ Too short' : '✓ Good length'}</p>
+                        <p>{password.length < 6 ? 'Too short' : 'Fine'}</p>
                     )}
                 </div>
                 
