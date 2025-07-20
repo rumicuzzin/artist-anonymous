@@ -139,14 +139,6 @@ Create a `.env` file in the project root:
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/artplacedb
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
 ## Project Status
 
 **Current Phase:** User Authentication & Registration
