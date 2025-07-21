@@ -1,6 +1,6 @@
-# ArtPlace
+# Artist-Anonymous
 
-A full-stack web application for artist portfolio management and community features.
+A full-stack web application to discover, buy and sell all forms of digital art.
 
 ## Tech Stack
 
@@ -63,7 +63,7 @@ artplace/
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/rumicuzzin/artplace.git
    cd artplace
    ```
 
