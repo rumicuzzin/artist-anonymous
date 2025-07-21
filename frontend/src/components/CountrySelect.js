@@ -188,7 +188,6 @@ const CountrySelect = ({ value, onChange }) => {
     <Select
       options={countryOptions}
       styles={customStyles}
-      placeholder="Type to search country..."
       isSearchable={true}
       className="w-full"
       value={value}

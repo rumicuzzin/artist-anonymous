@@ -1,4 +1,6 @@
 import react from 'react';
+import GoButton from './common/GoButton.js';
+import UsernamePasswordInputs from './common/UsernamePasswordInputs';
 
 function UserLogin() {
     // Create state variables for each input
@@ -51,37 +53,25 @@ function UserLogin() {
     return (
         <div className="login">
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username" className="text-green-400"> Username:</label>
-                    <input 
-                        type="text" 
-                        className="w-full p-2 bg-gray-800 text-green-400 border border-green-500 rounded focus:border-green-400 focus:outline-none"
-                        id="username"
-                        value={username} 
-                        onChange={handleUsernameChange}
-                        required
-                        
-                    />
-                    <label htmlFor="password" className="text-green-400"> Password: </label>
-                    <input 
-                        type="password"
-                        className="w-full p-2 bg-gray-800 text-green-400 border border-green-500 rounded focus:border-green-400 focus:outline-none" 
-                        id="password"
-                        value={password} 
-                        onChange={handlePasswordChange}
-                        required
-            
-                    />
-                </div>
-            
+
+                {/* Reusable U/PW component */}
+                <UsernamePasswordInputs 
+                username={username}
+                password={password}
+                handleUsernameChange={handleUsernameChange}
+                handlePasswordChange={handlePasswordChange}
+                />
+
                 <div className="mt-6 flex justify-center">
-                    <button
-                        type="submit"
-                        className="w-full py-3 bg-green-600 text-black font-semibold hover:bg-green-700 rounded transition-colors"
-                        disabled={loading}  // Disable button while loading
+                    {/* Submit button */}
+                    <GoButton 
+                        type="submit" 
+                        disabled={!username || !password}
+                        loading={loading}
+                        loadingText="Logging in..."
                     >
-                        {loading ? 'Logging in...' : 'Login'}
-                    </button>
+                        Login
+                    </GoButton>
                 </div>
                 {errors.username && <p className="text-red-500 mt-2">{errors.username}</p>}
                 {errors.password && <p className="text-red-500 mt-2">{errors.password}</p>}

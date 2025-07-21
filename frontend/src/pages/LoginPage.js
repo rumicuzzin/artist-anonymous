@@ -56,9 +56,6 @@ const LoginPage = () => {
               <h1 className="text-3xl font-bold text-green-400 mb-2 font-mono tracking-wider">
                 Login
               </h1>
-              <p className="text-green-300 text-sm font-mono opacity-80">
-                Who R U?
-              </p>
               <div className="w-20 h-px bg-gradient-to-r from-transparent via-green-500 to-transparent mx-auto mt-4"></div>
             </div>
 
