@@ -29,7 +29,7 @@ function HomePage() {
           </Link>
           
           <Link to="/register">
-            <button className="register-btn w-full py-3 border-2 border-green-600 text-green-600 font-semibold hover:bg-green-500 hover:text-black transition-colors">
+            <button className="register-btn w-full py-3 border-2 border-green-600 text-green-600 font-semibold rounded hover:bg-green-500 hover:text-black transition-colors">
               Sign Up
             </button>
           </Link>

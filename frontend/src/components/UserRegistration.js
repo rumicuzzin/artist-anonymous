@@ -12,7 +12,7 @@ function UserRegistration() {
     const [loading, setLoading] = useState(false);    // Tracks if we're submitting
     const [errors, setErrors] = useState({});         // Tracks any error messages
 
-        // Handle what happens when user types in username field
+    // Handle what happens when user types in username field
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);  // Update state with what they typed
         // Clear any previous username error
